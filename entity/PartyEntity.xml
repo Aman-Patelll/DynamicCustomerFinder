@@ -1,0 +1,63 @@
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <!-- ========================= Party Entity ============================= -->
+    <entity entity-name="Party" package="moqui">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="partyTypeEnumId" type="id" />
+
+        <relationship type="one-nofk" related="moqui.Person" short-alias="person" />
+        <relationship type="one-nofk" related="moqui.Organization" short-alias="organization" />
+        <relationship type="one" title="PartyType" related="moqui.basic.Enumeration" short-alias="type">
+            <key-map field-name="partyTypeEnumId" related="enumId"/>
+        </relationship>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Party Type" enumTypeId="PartyType" />
+            <moqui.basic.Enumeration description="Person" enumId="PERSON" enumTypeId="PartyType" />
+            <moqui.basic.Enumeration description="Organization" enumId="ORGANIZATION" enumTypeId="PartyType"/>
+        </seed-data>
+
+        <master>
+            <detail relationship="person"/>
+            <detail relationship="organization"/>
+            <detail relationship="type"/>
+        </master>
+    </entity>
+
+    <!-- ========================= Person Entity ============================= -->
+    <entity entity-name="Person" package="moqui">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="firstName" type="text-medium" />
+        <field name="lastName" type="text-medium" />
+        <field name="birthDate" type="date" />
+        <relationship type="one" related="moqui.Party" />
+    </entity>
+
+    <!-- ========================= Organization Entity ============================= -->
+    <entity entity-name="Organization" package="moqui">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="organizationName" type="text-medium" />
+        <relationship type="one" related="moqui.Party"/>
+    </entity>
+
+    <!-- ========================= Party Role Entity ============================= -->
+    <entity entity-name="PartyRole" package="moqui">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="roleTypeEnumId" type="id" />
+
+        <relationship type="one" related="moqui.Party" />
+        <relationship type="one" title="PartyRoleType" related="moqui.basic.Enumeration" short-alias="roleType">
+            <key-map field-name="roleTypeEnumId" related="enumId"/>
+        </relationship>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Party Role Type" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Agent" enumId="AGENT" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Consumer" enumId="CONSUMER" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Distributor" enumId="DISTRIBUTOR" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Owner" enumId="OWNER" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Customer" enumId="CUSTOMER" enumTypeId="PartyRoleType" />
+            <moqui.basic.Enumeration description="Employee" enumId="EMPLOYEE" enumTypeId="PartyRoleType"/>
+            <moqui.basic.Enumeration description="Employer" enumId="EMPLOYER" enumTypeId="PartyRoleType" />
+        </seed-data>
+    </entity>
+</entities>

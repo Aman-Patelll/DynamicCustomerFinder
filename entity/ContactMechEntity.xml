@@ -1,0 +1,69 @@
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <!-- ========================= ContactMech Entity ============================= -->
+    <entity entity-name="ContactMech" package="moqui">
+        <field name="contactMechId" type="id" is-pk="true" />
+        <field name="infoString" type="text-medium" />
+        <field name="contactMechTypeEnumId" type="id" />
+
+        <relationship type="one-nofk" related="moqui.TelecomNumber" />
+        <relationship type="one-nofk" related="moqui.PostalAddress" />
+        <relationship type="one" title="ContactMechType" related="moqui.basic.Enumeration" short-alias="contactMechType">
+            <key-map field-name="contactMechTypeEnumId" related="enumId"/>
+        </relationship>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Contact Mech Type" enumTypeId="ContactMechType" />
+            <moqui.basic.Enumeration description="Telecom Number" enumId="TELECOM_NUMBER" enumTypeId="ContactMechType" />
+            <moqui.basic.Enumeration description="Postal Address" enumId="POSTAL_ADDRESS" enumTypeId="ContactMechType"/>
+        </seed-data>
+    </entity>
+
+    <entity entity-name="TelecomNumber" package="moqui">
+        <field name="contactMechId" type="id" is-pk="true" />
+        <field name="countryCode" type="number-integer" />
+        <field name="areaCode" type="number-integer" />
+        <field name="contactNumber" type="number-integer" />
+
+        <relationship type="one" related="moqui.ContactMech" />
+    </entity>
+
+    <entity entity-name="PostalAddress" package="moqui">
+        <field name="contactMechId" type="id" is-pk="true" />
+        <field name="toName" type="text-medium" />
+        <field name="attnName" type="text-medium" />
+        <field name="address1" type="text-medium" />
+        <field name="address2" type="text-medium" />
+        <field name="city" type="text-short" />
+        <field name="postalCode" type="number-integer" />
+
+        <relationship type="one" related="moqui.ContactMech" />
+    </entity>
+
+
+    <entity entity-name="PartyContactMech" package="moqui">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="contactMechId" type="id" is-pk="true" />
+        <field name="contactMechPurposeEnumId" type="id" />
+        <field name="fromDate" type="date" is-pk="true"/>
+        <field name="thruDate" type="date" />
+
+        <relationship type="one" related="moqui.Party" />
+        <relationship type="one" related="moqui.ContactMech" />
+        <relationship type="one" title="ContactMechPurpose" related="moqui.basic.Enumeration" short-alias="contactMechPurpose">
+            <key-map field-name="contactMechPurposeEnumId" related="enumId"/>
+        </relationship>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Contact Mech Purpose" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Postal - Primary" enumId="PostalPrimary" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Postal - Shipping" enumId="PostalShipping" enumTypeId="ContactMechPurpose"/>
+            <moqui.basic.Enumeration description="Postal - Payment" enumId="PostalPayment" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Phone - Primary" enumId="PhonePrimary" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Phone - Shipping" enumId="PhoneShipping" enumTypeId="ContactMechPurpose"/>
+            <moqui.basic.Enumeration description="Phone - Payment" enumId="PhonePayment" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Email - Primary" enumId="EmailPrimary" enumTypeId="ContactMechPurpose" />
+            <moqui.basic.Enumeration description="Email - Shipping" enumId="EmailShipping" enumTypeId="ContactMechPurpose"/>
+            <moqui.basic.Enumeration description="Email - Payment" enumId="EmailPayment" enumTypeId="ContactMechPurpose" />
+        </seed-data>
+    </entity>
+</entities>

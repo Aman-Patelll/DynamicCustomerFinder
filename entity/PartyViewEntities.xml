@@ -1,0 +1,61 @@
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <view-entity entity-name="FindCustomerView" package="moqui">
+        <member-entity entity-alias="PTY" entity-name="moqui.Party" />
+        <member-entity entity-alias="PER" entity-name="moqui.Person" join-from-alias="PTY" join-optional="true">
+            <key-map field-name="partyId" />
+        </member-entity>
+        <member-entity entity-alias="ORG" entity-name="moqui.Organization" join-from-alias="PTY" join-optional="true" >
+            <key-map field-name="partyId" />
+        </member-entity>
+        <member-entity entity-alias="PTRL" entity-name="moqui.PartyRole" join-from-alias="PTY" join-optional="true" >
+            <key-map field-name="partyId" />
+        </member-entity>
+        <member-entity entity-alias="PCM" entity-name="moqui.PartyContactMech" join-from-alias="PTRL" join-optional="true">
+            <key-map field-name="partyId" />
+        </member-entity>
+        <member-entity entity-alias="CM" entity-name="moqui.ContactMech" join-from-alias="PCM" join-optional="true">
+            <key-map field-name="contactMechId" />
+        </member-entity>
+        <member-entity entity-alias="CMTN" entity-name="moqui.TelecomNumber" join-from-alias="CM" join-optional="true">
+            <key-map field-name="contactMechId" />
+        </member-entity>
+        <member-entity entity-alias="CMPA" entity-name="moqui.PostalAddress" join-from-alias="CM" join-optional="true">
+            <key-map field-name="contactMechId" />
+
+        </member-entity>
+
+        <alias entity-alias="PTY" name="partyId" />
+        <alias entity-alias="PTY" name="partyTypeEnumId" />
+
+        <alias entity-alias="PER" name="firstName" />
+        <alias entity-alias="PER" name="lastName" />
+        <alias entity-alias="PER" name="birthDate" />
+
+        <alias entity-alias="ORG" name="organizationName" />
+        <alias entity-alias="PTRL" name="roleTypeEnumId" />
+
+        <alias entity-alias="PCM" name="contactMechId" />
+        <alias entity-alias="PCM" name="contactMechPurposeEnumId" />
+        <alias entity-alias="PCM" name="fromDate" />
+        <alias entity-alias="PCM" name="thruDate" />
+
+        <alias entity-alias="CM" name="contactMechTypeEnumId" />
+        <alias entity-alias="CM" field="infoString" name="emailAddress" />
+        <alias entity-alias="CMTN" name="countryCode" />
+        <alias entity-alias="CMTN" name="areaCode" />
+        <alias entity-alias="CMTN" name="contactNumber" />
+
+        <alias entity-alias="CMPA" name="toName" />
+        <alias entity-alias="CMPA" name="attnName" />
+        <alias entity-alias="CMPA" name="address1" />
+        <alias entity-alias="CMPA" name="address2" />
+        <alias entity-alias="CMPA" name="city" />
+        <alias entity-alias="CMPA" name="postalCode" />
+
+        <entity-condition>
+            <econdition field-name="roleTypeEnumId" operator="equals" value="CUSTOMER" />
+        </entity-condition>
+
+    </view-entity>
+</entities>
